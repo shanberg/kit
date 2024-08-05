@@ -36,7 +36,7 @@ install_tool() {
     if is_tool_installed "$TOOL_NAME"; then
         echo "Tool $TOOL_NAME is already installed."
         echo -n "Would you like to reinstall it? (y/n) "
-        read choice
+        read choice < /dev/tty
         if [ "$choice" != "y" ]; then
             echo "Skipping reinstallation of $TOOL_NAME."
             return
@@ -47,7 +47,6 @@ install_tool() {
 }
 
 interactive_mode() {
-    PS3="Please select a tool to install: "
     tools=()
 
     # Populate the tools array with tools from the configuration file
@@ -59,14 +58,23 @@ interactive_mode() {
 
     echo "Tools available: ${tools[@]}"  # Debugging statement
 
-    select tool in "${tools[@]}"; do
-        if [ "$tool" == "Quit" ]; then
-            echo "Exiting."
-            break
-        elif [ -n "$tool" ]; then
-            echo "Selected tool: $tool"  # Debugging statement
-            install_tool "$tool"
-            break  # Exit after installing the tool
+    while true; do
+        echo "Please select a tool to install:"
+        for i in "${!tools[@]}"; do
+            echo "$((i+1))) ${tools[$i]}"
+        done
+
+        read -p "Enter the number of your choice: " choice < /dev/tty
+        if [[ "$choice" -ge 1 && "$choice" -le "${#tools[@]}" ]]; then
+            tool="${tools[$((choice-1))]}"
+            if [ "$tool" == "Quit" ]; then
+                echo "Exiting."
+                break
+            else
+                echo "Selected tool: $tool"  # Debugging statement
+                install_tool "$tool"
+                break  # Exit after installing the tool
+            fi
         else
             echo "Invalid selection."
         fi
