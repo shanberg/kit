@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONFIG_FILE="tools.conf"
-CONFIG_URL="https://raw.githubusercontent.com/shanberg/do/main/tools.conf"
+CONFIG_URL="https://raw.githubusercontent.com/shanberg/kit/main/tools.conf"
 
 # Download the configuration file if it does not exist
 if [ ! -f "$CONFIG_FILE" ]; then
