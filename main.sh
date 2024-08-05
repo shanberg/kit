@@ -64,6 +64,7 @@ interactive_mode() {
             echo "Exiting."
             break
         elif [ -n "$tool" ]; then
+            echo "Selected tool: $tool"  # Debugging statement
             install_tool "$tool"
             break  # Exit after installing the tool
         else
@@ -72,5 +73,7 @@ interactive_mode() {
     done
 }
 
+echo "Starting interactive mode..."  # Debugging statement
 interactive_mode
+echo "Interactive mode ended."  # Debugging statement
 exit 0
