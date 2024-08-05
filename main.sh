@@ -35,7 +35,8 @@ install_tool() {
     echo "Found tool: $TOOL_NAME"
     if is_tool_installed "$TOOL_NAME"; then
         echo "Tool $TOOL_NAME is already installed."
-        choice=$( (read -p "Would you like to reinstall it? (y/n) " choice; echo $choice) < /dev/tty)
+        echo -n "Would you like to reinstall it? (y/n) "
+        read choice
         if [ "$choice" != "y" ]; then
             echo "Skipping reinstallation of $TOOL_NAME."
             return
@@ -43,8 +44,6 @@ install_tool() {
     fi
     echo "Installing $TOOL_NAME..."
     eval "$install_command"
-
-    exit 0
 }
 
 interactive_mode() {
@@ -58,12 +57,15 @@ interactive_mode() {
     done
     tools+=("Quit")
 
+    echo "Tools available: ${tools[@]}"  # Debugging statement
+
     select tool in "${tools[@]}"; do
         if [ "$tool" == "Quit" ]; then
             echo "Exiting."
             break
         elif [ -n "$tool" ]; then
             install_tool "$tool"
+            break  # Exit after installing the tool
         else
             echo "Invalid selection."
         fi
