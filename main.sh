@@ -19,6 +19,11 @@ get_install_command() {
     echo "${!var_name}"
 }
 
+# Function to check if a tool is installed
+is_tool_installed() {
+    command -v "$1" >/dev/null 2>&1
+}
+
 install_tool() {
     TOOL_NAME=$1
     install_command=$(get_install_command "$TOOL_NAME")
@@ -38,6 +43,8 @@ install_tool() {
     fi
     echo "Installing $TOOL_NAME..."
     eval "$install_command"
+
+    exit 0
 }
 
 interactive_mode() {
@@ -57,7 +64,6 @@ interactive_mode() {
             break
         elif [ -n "$tool" ]; then
             install_tool "$tool"
-            exit 0
         else
             echo "Invalid selection."
         fi
