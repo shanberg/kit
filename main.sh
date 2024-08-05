@@ -42,7 +42,14 @@ install_tool() {
 
 interactive_mode() {
     PS3="Please select a tool to install: "
-    tools=("now" "productivity_tool" "Quit")
+    tools=()
+
+    # Populate the tools array with tools from the configuration file
+    for var in $(compgen -A variable | grep ^tool_); do
+        tool_name=${var#tool_}
+        tools+=("$tool_name")
+    done
+    tools+=("Quit")
 
     select tool in "${tools[@]}"; do
         if [ "$tool" == "Quit" ]; then
