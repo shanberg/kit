@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Associative array of tool names and their installation commands
-declare -A tools=(
+declare tools=(
     ["now"]="curl -fsSL https://raw.githubusercontent.com/shanberg/now/main/dist/install.sh | bash"
     ["pre"]="curl -L https://raw.githubusercontent.com/shanberg/pre/main/dist/install.sh | bash -s -- --non-interactive --template-source github --github-url https://github.com/shanberg/pre-templates"
 )
